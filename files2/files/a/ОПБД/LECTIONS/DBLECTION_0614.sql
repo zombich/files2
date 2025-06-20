@@ -1,0 +1,71 @@
+SELECT        Game.Id, Game.Title,STRING_AGG(Review.Comment, '; ')
+FROM            Game INNER JOIN
+Review ON Game.Id = Review.GameId
+						 GROUP BY Game.Id, Game.Title;
+
+SELECT 123.45, ROUND(123.45,0), ROUND(123.45,1), ROUND(123.45,-2);
+
+SELECT GETDATE(),
+YEAR(GETDATE()),
+YEAR('2014-06-14'),
+MONTH(GETDATE()),
+DAY(GETDATE()),
+DATEPART(hh,GETDATE()),
+DATEPART(w,GETDATE()),
+DATEPART(dw,GETDATE()),
+DATENAME(m,GETDATE()),
+DATEADD(HH,-30,GETDATE())
+,CURRENT_TIMESTAMP;
+
+SELECT Title
+,LEFT (Title, 2)
+,RIGHT(TITLE,2)
+, SUBSTRING(Title,2,5)
+, LTRIM(Title)
+, RTRIM(Title)
+, TRIM(Title)
+FROM Game;
+
+SELECT Title
+,LOWER(TITLE)
+,UPPER(TITLE)
+,QUOTENAME(TITLE)
+,QUOTENAME(TITLE, '''')
+,QUOTENAME(TITLE, '(')
+, REPLACE(TITLE, 'o','OOO')
+FROM Game;
+
+SELECT *
+FROM string_split('123 aasd asd ffgt', ' ');
+
+SELECT id,value 
+FROM Game
+CROSS APPLY string_split(Title, ' ');
+
+SELECT GameId, STRING_AGG([User], ';') WITHIN GROUP (ORDER BY [User] DESC)
+FROM Review
+GROUP BY GameId;
+
+SELECT HASHBYTES('SHA2_256', '123');
+
+SELECT Title, HASHBYTES('SHA2_256', Title), HASHBYTES('SHA2_256', Title+' ')
+FROM Game;
+
+SELECT *, ISNULL([Description],'--'), NULLIF([DESCRIPTION],'123')
+FROM Game;
+
+SELECT PRICE, STR(PRICE,20,1)
+FROM Game;
+
+SELECT 123.45
+,CAST(ROUND(123.45,1) AS decimal(8,1))
+,ROUND(123.45,1);
+
+SELECT GETDATE()
+, CONVERT(datetime, '14.06.2025',104);
+
+SELECT ROW_NUMBER() OVER(ORDER BY TITLE) AS #, *
+FROM Game;
+
+SELECT ROW_NUMBER() OVER(partition BY GameId ORDER BY GameId) AS #, *
+FROM Review;
